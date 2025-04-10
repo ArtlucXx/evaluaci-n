@@ -121,6 +121,7 @@
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         min-height: 150px;
+        text-align: center;
       }
 
       .combat-message {
@@ -147,6 +148,26 @@
       .enemy-choice-container h3 {
         margin-bottom: 20px;
         font-size: 1.5rem;
+      }
+
+      /* Estilos para el título "Enemigo" */
+      #enemyTitle {
+        display: none;
+        color: #d9534f;
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+        animation: fadeIn 1s ease-out;
+      }
+
+      @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+
+      /* Ajuste para mejorar la visualización del mensaje */
+      .combat-display p {
+        font-size: 1.2rem;
       }
     </style>
   </head>
@@ -198,7 +219,7 @@
         </div>
 
         <!-- Zona de selección de enemigo (se muestra después de elegir tu Pokémon) -->
-        <h3>Enemigo</h3>
+        <h3 id="enemyTitle">Enemigo</h3>
         <div id="enemyChoiceSection" class="enemy-choice-container" style="display: none;">
           <div class="pokemon-info">
             <img src="imagen/lucario3.jpg" class="pokemon-image" alt="Lucario">
@@ -241,6 +262,7 @@
         document.getElementById('combatDisplay').innerHTML = 
           `<p class="combat-message">¡Has elegido a ${pokemon}!</p>`;
         document.getElementById('enemyChoiceSection').style.display = 'flex';  // Muestra la zona de selección de enemigo
+        document.getElementById('enemyTitle').style.display = 'block'; // Mostrar título
       }
 
       // Función para seleccionar el Pokémon enemigo
@@ -258,6 +280,7 @@
         document.getElementById('combatDisplay').innerHTML = 
           `<p class="combat-message">Selecciona tu Pokémon para empezar el combate.</p>`;
         document.getElementById('enemyChoiceSection').style.display = 'none';  // Oculta la zona de selección de enemigo
+        document.getElementById('enemyTitle').style.display = 'none'; // Ocultar título
       }
 
       // Función de combate basada en tipos de Pokémon

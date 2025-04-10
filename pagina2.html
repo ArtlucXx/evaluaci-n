@@ -198,7 +198,7 @@
         </div>
 
         <!-- Zona de selección de enemigo (se muestra después de elegir tu Pokémon) -->
-        <h3>Enemigo</h3> <!-- Aquí agregamos el texto "Enemigo" -->
+        <h3>Enemigo</h3>
         <div id="enemyChoiceSection" class="enemy-choice-container" style="display: none;">
           <div class="pokemon-info">
             <img src="imagen/lucario3.jpg" class="pokemon-image" alt="Lucario">
@@ -223,7 +223,8 @@
         </div>
 
         <button class="btn btn-danger btn-restart" onclick="restartBattle()">Reiniciar Batalla</button>
-        <button class="btn btn-info btn-back" onclick="window.location.href='pagina2.html'">Volver a Página 2</button>
+        <!-- Opción para volver atrás -->
+        <button class="btn btn-info btn-back" onclick="window.history.back()">Volver Atrás</button>
       </div>
     </main>
 

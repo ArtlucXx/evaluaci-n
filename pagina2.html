@@ -1,1 +1,193 @@
-<h1>pepe</h1>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pokémon Battle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      .pokemon-image {
+        max-width: 150px;
+        margin-top: 20px;
+      }
+      .combat-section {
+        display: none;
+        text-align: center;
+        margin-top: 30px;
+      }
+      .btn-restart {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="container mt-5">
+      <h2>Selecciona tu Pokémon</h2>
+      <form id="pokemonForm">
+        <div class="mb-3">
+          <label for="pokemonSelect" class="form-label">¿Cuál de los tres Pokémon eliges para representar esta batalla?</label>
+          <select class="form-select" id="pokemonSelect" onchange="showPokemonInfo()">
+            <option value="">Selecciona un Pokémon</option>
+            <option value="lucario">Lucario (Lucha/Acero)</option>
+            <option value="greninja">Greninja (Agua/Siniestro)</option>
+            <option value="zoroark">Zoroark (Siniestro)</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="opponentSelect" class="form-label">¿Con qué Pokémon deseas enfrentarte?</label>
+          <select class="form-select" id="opponentSelect">
+            <option value="">Selecciona un oponente</option>
+            <option value="lucario">Lucario (Lucha/Acero)</option>
+            <option value="greninja">Greninja (Agua/Siniestro)</option>
+            <option value="zoroark">Zoroark (Siniestro)</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <button type="button" class="btn btn-primary" onclick="startCombat()">Simular Combate</button>
+        </div>
+      </form>
+
+      <!-- Información del Pokémon elegido -->
+      <div id="pokemonInfo" class="text-center" style="display: none;">
+        <h3 id="pokemonName"></h3>
+        <img id="pokemonImage" class="pokemon-image" />
+      </div>
+
+      <!-- Sección de Combate -->
+      <div class="combat-section" id="combatSection">
+        <h2>¡Es hora del combate!</h2>
+        <div class="d-flex justify-content-center">
+          <img id="pokemon1" class="pokemon-image" />
+          <img id="pokemon2" class="pokemon-image" />
+        </div>
+        <h3 id="combatResult"></h3>
+
+        <!-- Botón para elegir otro Pokémon -->
+        <div class="btn-restart">
+          <button type="button" class="btn btn-secondary" onclick="restartBattle()">Elegir otro Pokémon</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showPokemonInfo() {
+        const selectedPokemon = document.getElementById("pokemonSelect").value;
+        const pokemonInfo = document.getElementById("pokemonInfo");
+        const pokemonName = document.getElementById("pokemonName");
+        const pokemonImage = document.getElementById("pokemonImage");
+
+        if (selectedPokemon === "lucario") {
+          pokemonName.textContent = "Lucario (Lucha/Acero)";
+          pokemonImage.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/448.png"; // Imagen de Lucario
+        } else if (selectedPokemon === "greninja") {
+          pokemonName.textContent = "Greninja (Agua/Siniestro)";
+          pokemonImage.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/658.png"; // Imagen de Greninja
+        } else if (selectedPokemon === "zoroark") {
+          pokemonName.textContent = "Zoroark (Siniestro)";
+          pokemonImage.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/571.png"; // Imagen de Zoroark
+        } else {
+          pokemonInfo.style.display = "none";
+          return;
+        }
+
+        pokemonInfo.style.display = "block";
+      }
+
+      function startCombat() {
+        const selectedPokemon = document.getElementById("pokemonSelect").value;
+        const opponentPokemon = document.getElementById("opponentSelect").value;
+
+        // Verificar que ambos Pokémon estén seleccionados
+        if (!selectedPokemon || !opponentPokemon) {
+          alert("Por favor, selecciona tanto tu Pokémon como el oponente.");
+          return;
+        }
+
+        const combatSection = document.getElementById("combatSection");
+
+        // Asignar imágenes a los Pokémon en combate
+        const pokemon1 = document.getElementById("pokemon1");
+        pokemon1.src = getPokemonImage(selectedPokemon);
+
+        const pokemon2 = document.getElementById("pokemon2");
+        pokemon2.src = getPokemonImage(opponentPokemon);
+
+        // Mostrar sección de combate
+        combatSection.style.display = "block";
+
+        // Calcular el resultado del combate basado en tipos
+        const winner = determineWinner(selectedPokemon, opponentPokemon);
+
+        // Mostrar el resultado después de un breve retraso
+        setTimeout(function() {
+          document.getElementById("combatResult").textContent = winner;
+        }, 2000);
+      }
+
+      function getPokemonImage(pokemon) {
+        const images = {
+          "lucario": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/448.png",
+          "greninja": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/658.png",
+          "zoroark": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/571.png"
+        };
+        return images[pokemon];
+      }
+
+      // Función para determinar el ganador basado en tipos
+      function determineWinner(selectedPokemon, opponentPokemon) {
+        const typeAdvantages = {
+          "lucario": ["lucha", "acero"],  // Lucario (Lucha/Acero)
+          "greninja": ["agua", "siniestro"],  // Greninja (Agua/Siniestro)
+          "zoroark": ["siniestro"]  // Zoroark (Siniestro)
+        };
+
+        // Reglas de ventaja entre tipos (se simplifica a una comparación básica)
+        const typeChart = {
+          "lucha": ["siniestro", "hielo", "roca", "acero"],  // Lucha vence a Siniestro, Hielo, Roca, Acero
+          "agua": ["fuego", "tierra", "roca"],  // Agua vence a Fuego, Tierra, Roca
+          "siniestro": ["psíquico", "fantasma"],  // Siniestro vence a Psíquico, Fantasma
+          "acero": ["hada", "roca", "hielo"]  // Acero vence a Hada, Roca, Hielo
+        };
+
+        let winner = "";
+
+        // Evaluar la ventaja de tipo
+        if (selectedPokemon === "lucario" && opponentPokemon === "zoroark") {
+          winner = "¡Lucario vence a Zoroark!";
+        } else if (selectedPokemon === "lucario" && opponentPokemon === "greninja") {
+          winner = "¡Greninja vence a Lucario!";
+        } else if (selectedPokemon === "greninja" && opponentPokemon === "lucario") {
+          winner = "¡Greninja vence a Lucario!";
+        } else if (selectedPokemon === "greninja" && opponentPokemon === "zoroark") {
+          winner = "¡Greninja vence a Zoroark!";
+        } else if (selectedPokemon === "zoroark" && opponentPokemon === "lucario") {
+          winner = "¡Lucario vence a Zoroark!";
+        } else if (selectedPokemon === "zoroark" && opponentPokemon === "greninja") {
+          winner = "¡Zoroark vence a Greninja!";
+        } else {
+          winner = "¡Es un empate!";
+        }
+
+        return winner;
+      }
+
+      // Función para reiniciar la batalla y permitir elegir otro Pokémon
+      function restartBattle() {
+        // Ocultar la sección de combate
+        document.getElementById("combatSection").style.display = "none";
+
+        // Limpiar las selecciones y resultados previos
+        document.getElementById("pokemonSelect").value = "";
+        document.getElementById("opponentSelect").value = "";
+        document.getElementById("combatResult").textContent = "";
+
+        // Ocultar la información del Pokémon elegido
+        document.getElementById("pokemonInfo").style.display = "none";
+      }
+    </script>
+
+  </body>
+</html>

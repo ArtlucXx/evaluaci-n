@@ -22,6 +22,10 @@
         color: #ffffff;
       }
 
+      .navbar-nav .nav-item {
+        margin-left: 15px;
+      }
+
       .pokemon-image {
         width: 120px;
         height: 120px;
@@ -44,7 +48,7 @@
         margin-top: 30px;
       }
 
-      .btn-restart, .btn-back, .btn-page3 {
+      .btn-restart, .btn-page3 {
         margin-top: 20px;
       }
 
@@ -150,24 +154,17 @@
         font-size: 1.5rem;
       }
 
-      /* Estilos para el título "Enemigo" */
-      #enemyTitle {
-        display: none;
-        color: #d9534f;
-        font-size: 2rem;
-        font-weight: bold;
-        text-align: center;
-        animation: fadeIn 1s ease-out;
-      }
-
-      @keyframes fadeIn {
-        0% { opacity: 0; }
-        100% { opacity: 1; }
-      }
-
       /* Ajuste para mejorar la visualización del mensaje */
       .combat-display p {
         font-size: 1.2rem;
+      }
+
+      .navbar-nav .nav-item:last-child {
+        margin-left: 10px;
+      }
+
+      .btn-back {
+        margin-left: 10px;
       }
     </style>
   </head>
@@ -185,12 +182,11 @@
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
               <li class="nav-item"><a class="nav-link active" aria-current="page" href="pagina2.html">Página 2</a></li>
               <li class="nav-item"><a class="nav-link" href="pagina3.html">Página 3</a></li>
-              <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Desactivado</a></li>
             </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
-              <button class="btn btn-outline-success" type="submit">Buscar</button>
-            </form>
+            <!-- Botón de Volver Atrás al lado de Página 3 -->
+            <button class="btn btn-info btn-back" onclick="window.history.back()" title="Volver Atrás">
+              Volver Atrás
+            </button>
           </div>
         </div>
       </nav>
@@ -244,8 +240,6 @@
         </div>
 
         <button class="btn btn-danger btn-restart" onclick="restartBattle()">Reiniciar Batalla</button>
-        <!-- Opción para volver atrás -->
-        <button class="btn btn-info btn-back" onclick="window.history.back()">Volver Atrás</button>
       </div>
     </main>
 
@@ -308,3 +302,4 @@
     </script>
   </body>
 </html>
+
